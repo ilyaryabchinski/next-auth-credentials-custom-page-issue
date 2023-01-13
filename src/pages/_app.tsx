@@ -1,6 +1,24 @@
 import '@/styles/globals.css'
-import type { AppProps } from 'next/app'
+import { MantineProvider } from '@mantine/core';
+import type { AppType } from 'next/app'
+import { type Session } from "next-auth";
+import { SessionProvider } from "next-auth/react";
 
-export default function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+const App: AppType<{ session: Session | null }> = (
+  { Component, pageProps: { session, ...pageProps }, }) => {
+  return (
+    <MantineProvider
+      withGlobalStyles
+      withNormalizeCSS
+        theme={{
+          /** Put your mantine theme override here */
+          colorScheme: 'light',
+        }}
+    >
+      <SessionProvider session={session}>
+        <Component {...pageProps} />
+      </SessionProvider>
+    </MantineProvider>
+  )
 }
+export default App;
