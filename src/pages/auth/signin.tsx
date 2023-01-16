@@ -24,9 +24,10 @@ const Signin = ({ csrfToken }: SigninProps) => {
 
   const { register, handleSubmit, formState: { errors } } = useForm<LoginFormData>();
 
-  const onSubmit = async ({email, password}: LoginFormData) => {
+  const onSubmit = async (e: any) => {
+    e.preventDefault();
     try {
-        const res = await signIn("credentials", { email, password });
+        const res = await signIn("credentials", { email: "someone@gmail.com", password: "suPeR123StroN__G" });
         console.log(res);
     } catch {
         console.log("something went wrong!");
@@ -39,7 +40,7 @@ const Signin = ({ csrfToken }: SigninProps) => {
     <Grid.Col span={3}>
         <Stack>
           <Title order={1}>loginTitle</Title>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={onSubmit}>
             <Stack>
                 <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
                 <Input.Wrapper>
